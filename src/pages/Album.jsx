@@ -1,10 +1,11 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { Box, Container, Typography } from '@mui/material';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
-import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import MusicList from '../components/MusicList';
 
 class Album extends React.Component {
   constructor() {
@@ -64,22 +65,47 @@ class Album extends React.Component {
       fetchUser,
     } = this.props;
     return (
-      <div data-testid="page-album">
+      <Container
+        maxWidth="md"
+        sx={ {
+          bgcolor: 'white',
+          mt: '10px',
+          borderRadius: '10px',
+        } }
+        component="main"
+        data-testid="page-album"
+        disableGutters
+      >
         <Header fetchUser={ fetchUser } />
-        <div>
-          <h3 data-testid="artist-name">{ album.artistName }</h3>
-          <h4 data-testid="album-name">{ album.collectionName }</h4>
-        </div>
-        { !isLoading ? (
-          <MusicCard
-            tracks={ tracks }
-            favoritedTracks={ favoritedTracks }
-            favoriteHandler={ this.favoriteHandler }
-          />
-        ) : (
-          <Loading />
-        ) }
-      </div>
+        <Box
+          padding={ 3 }
+          sx={ {
+            borderRadius: '0px 0px 10px 10px',
+            borderWidth: '0px 1px 1px 1px',
+            borderStyle: 'solid',
+            borderColor: '#2ba377',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          } }
+        >
+          <Typography variant="h5">
+            { album.collectionName }
+          </Typography>
+          <Typography variant="subtitle1">
+            { album.artistName }
+          </Typography>
+          { !isLoading ? (
+            <MusicList
+              tracks={ tracks }
+              favoritedTracks={ favoritedTracks }
+              favoriteHandler={ this.favoriteHandler }
+            />
+          ) : (
+            <Loading />
+          ) }
+        </Box>
+      </Container>
     );
   }
 }

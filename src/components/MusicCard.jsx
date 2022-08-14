@@ -1,55 +1,70 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { Card, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 class MusicCard extends React.Component {
   render() {
     const {
-      tracks,
+      track,
       favoriteAllTracks,
       favoritedTracks,
       favoriteHandler,
     } = this.props;
+    const {
+      trackName,
+      previewUrl,
+      trackId,
+    } = track;
     return (
-      <ul>
-        { tracks.map((track) => {
-          const { trackName, previewUrl, trackId } = track;
-          return (
-            <li key={ trackName }>
-              <span>{ trackName }</span>
-              <audio data-testid="audio-component" src={ previewUrl } controls>
-                <track kind="captions" />
-                O seu navegador não suporta o elemento
-                {' '}
-                <code>audio</code>
-                .
-              </audio>
-              <label htmlFor={ `favorite-music-${trackId}` }>
-                Favorita
-                <input
-                  id={ `favorite-music-${trackId}` }
-                  type="checkbox"
-                  checked={ favoriteAllTracks || favoritedTracks.includes(trackId) }
-                  onChange={ () => favoriteHandler(track) }
-                  data-testid={ `checkbox-music-${trackId}` }
-                />
-              </label>
-            </li>
-          );
-        }) }
-      </ul>
+      <Card>
+        <CardContent
+          sx={ {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.7em',
+          } }
+        >
+          <Typography variant="h6" fontSize="1.2em">
+            { trackName }
+          </Typography>
+          <audio data-testid="audio-component" src={ previewUrl } controls>
+            <track kind="captions" />
+            O seu navegador não suporta o elemento
+            {' '}
+            <code>audio</code>
+            .
+          </audio>
+          <FormControlLabel
+            label="Favorita"
+            onChange={ () => favoriteHandler(track) }
+            checked={ favoriteAllTracks || favoritedTracks.includes(trackId) }
+            control={
+              <Checkbox
+                id={ `favorite-music-${trackId}` }
+                inputProps={ { 'data-testid': `checkbox-music-${trackId}` } }
+                size="small"
+              />
+            }
+          />
+        </CardContent>
+      </Card>
     );
   }
 }
 
 MusicCard.propTypes = {
-  tracks: PropTypes.arrayOf(PropTypes.object),
+  track: PropTypes.shape({
+    trackName: PropTypes.string.isRequired,
+    previewUrl: PropTypes.string.isRequired,
+    trackId: PropTypes.number.isRequired,
+  }).isRequired,
   favoritedTracks: PropTypes.arrayOf(PropTypes.number),
   favoriteAllTracks: PropTypes.bool,
   favoriteHandler: PropTypes.func.isRequired,
 };
 
 MusicCard.defaultProps = {
-  tracks: [],
   favoritedTracks: [],
   favoriteAllTracks: undefined,
 };

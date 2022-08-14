@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
-import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import MusicList from '../components/MusicList';
 
 class Favorites extends React.Component {
   constructor() {
@@ -52,7 +52,7 @@ class Favorites extends React.Component {
         <Header fetchUser={ fetchUser } />
         <h4>Favorites</h4>
         { !isLoading ? (
-          <MusicCard
+          <MusicList
             tracks={ tracks }
             favoriteAllTracks
             favoriteHandler={ this.favoriteHandler }
