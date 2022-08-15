@@ -16,7 +16,8 @@ class Favorites extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchFavoritesTracks();
+    const { onUserAuthenticate } = this.props;
+    onUserAuthenticate(this.fetchFavoritesTracks);
   }
 
   fetchFavoritesTracks = async () => {
@@ -46,7 +47,8 @@ class Favorites extends React.Component {
       isLoading,
     } = this.state;
     const {
-      fetchUser,
+      user,
+      isRefreshingUser,
     } = this.props;
     return (
       <Container
@@ -60,7 +62,7 @@ class Favorites extends React.Component {
         data-testid="page-favorites"
         disableGutters
       >
-        <Header fetchUser={ fetchUser } />
+        <Header user={ user } />
         <Box
           padding={ 3 }
           sx={ {
@@ -73,18 +75,19 @@ class Favorites extends React.Component {
             alignItems: 'center',
           } }
         >
-          <Typography variant="h5">
-            Minhas Favoritas
-          </Typography>
-          { !isLoading ? (
-            <MusicList
-              tracks={ tracks }
-              favoriteAllTracks
-              favoriteHandler={ this.favoriteHandler }
-            />
-          ) : (
-            <Loading />
-          ) }
+          { !isRefreshingUser ? (
+            <>
+              <Typography variant="h5">
+                Minhas Favoritas
+              </Typography>
+              <MusicList
+                isLoading={ isLoading }
+                tracks={ tracks }
+                favoriteAllTracks
+                favoriteHandler={ this.favoriteHandler }
+              />
+            </>
+          ) : (<Loading />) }
         </Box>
       </Container>
     );
@@ -92,7 +95,9 @@ class Favorites extends React.Component {
 }
 
 Favorites.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 export default Favorites;

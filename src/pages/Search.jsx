@@ -22,6 +22,11 @@ class Search extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { onUserAuthenticate } = this.props;
+    onUserAuthenticate();
+  }
+
   onSearching = ({ target: { name, value } }) => this.setState(
     { [name]: value, isSearchButtonDisabled: value.length < 2 },
   );
@@ -48,7 +53,7 @@ class Search extends React.Component {
       searched,
     } = this.state;
     const {
-      fetchUser,
+      user,
     } = this.props;
     const textFieldProps = {
       type: 'text',
@@ -75,7 +80,7 @@ class Search extends React.Component {
         data-testid="page-search"
         disableGutters
       >
-        <Header fetchUser={ fetchUser } />
+        <Header user={ user } />
         <Box
           padding={ 3 }
           sx={ {
@@ -112,18 +117,17 @@ class Search extends React.Component {
               searched={ searched }
               redirectToAlbum={ this.redirectToAlbum }
             />
-          ) : (
-            <Loading />
-          ) }
+          ) : (<Loading />) }
         </Box>
-
       </Container>
     );
   }
 }
 
 Search.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 

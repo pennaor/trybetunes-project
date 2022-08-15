@@ -62,7 +62,7 @@ class Album extends React.Component {
       isLoading,
     } = this.state;
     const {
-      fetchUser,
+      user,
     } = this.props;
     return (
       <Container
@@ -76,7 +76,7 @@ class Album extends React.Component {
         data-testid="page-album"
         disableGutters
       >
-        <Header fetchUser={ fetchUser } />
+        <Header user={ user } />
         <Box
           padding={ 3 }
           sx={ {
@@ -111,7 +111,9 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
   match: PropTypes.shape({ params: PropTypes.shape({ id: PropTypes.string }) }),
   params: PropTypes.shape({ id: PropTypes.string }),
   id: PropTypes.string,

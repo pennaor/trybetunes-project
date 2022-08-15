@@ -15,32 +15,13 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 
 class Profile extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      user: {},
-      isLoading: true,
-    };
-  }
-
   componentDidMount() {
-    this.getProfileInformation();
-  }
-
-  getProfileInformation = async () => {
-    const { fetchUser } = this.props;
-    const user = await fetchUser();
-    this.setState({ user, isLoading: false });
+    const { onUserAuthenticate } = this.props;
+    onUserAuthenticate();
   }
 
   render() {
-    const {
-      user: { name, email, image, description },
-      isLoading,
-    } = this.state;
-    const {
-      fetchUser,
-    } = this.props;
+    const { user, isRefreshingUser } = this.props;
     return (
       <Container
         maxWidth="md"
@@ -53,7 +34,7 @@ class Profile extends React.Component {
         data-testid="page-profile"
         disableGutters
       >
-        <Header fetchUser={ fetchUser } />
+        <Header user={ user } />
         <Box
           padding={ 3 }
           sx={ {
@@ -66,21 +47,21 @@ class Profile extends React.Component {
             alignItems: 'center',
           } }
         >
-          { !isLoading ? (
+          { !isRefreshingUser ? (
             <List sx={ { width: '100%', maxWidth: '420px' } }>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                   <Avatar
-                    src={ image }
-                    alt={ `Foto de ${name}` }
+                    src={ user.image }
+                    alt={ `Foto de ${user.name}` }
                     imgProps={ { 'data-testid': 'profile-image' } }
                   >
-                    { name[0] }
+                    { user.name[0] }
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={ `${name}` }
-                  secondary={ email }
+                  primary={ `${user.name}` }
+                  secondary={ user.email }
                 />
                 <ListItemText
                   sx={ { textAlign: 'end' } }
@@ -91,16 +72,14 @@ class Profile extends React.Component {
               <ListItem>
                 <ListItemText
                   primary="Descrição"
-                  secondary={ description }
+                  secondary={ user.description }
                   sx={ {
                     textAlign: 'center',
                   } }
                 />
               </ListItem>
             </List>
-          ) : (
-            <Loading />
-          ) }
+          ) : (<Loading />) }
         </Box>
       </Container>
     );
@@ -108,7 +87,7 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
+  onUserAuthenticate: PropTypes.func.isRequired,
 };
 
 export default Profile;

@@ -8,27 +8,20 @@ import Loading from '../components/Loading';
 import { updateUser } from '../services/userAPI';
 
 class ProfileEdit extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { user } = props;
     this.state = {
-      name: '',
-      email: '',
-      image: '',
-      description: '',
-      isLoading: true,
+      ...user,
+      isLoading: false,
       isEditButtonDisabled: false,
       redirectToProfile: false,
     };
   }
 
   componentDidMount() {
-    this.getProfileInformation();
-  }
-
-  getProfileInformation = async () => {
-    const { fetchUser } = this.props;
-    const user = await fetchUser();
-    this.setState({ ...user, isLoading: false });
+    const { onUserAuthenticate } = this.props;
+    onUserAuthenticate();
   }
 
   isInvalidEmail = (email) => {
@@ -65,18 +58,22 @@ class ProfileEdit extends React.Component {
     this.setState({ [name]: value }, () => this.validateFields());
   }
 
-  updateUser = (event) => {
+  submitUser = (event) => {
     event.preventDefault();
-    this.setState({ isLoading: true }, async () => {
-      const {
-        name,
-        email,
-        image,
-        description,
-      } = this.state;
-      await updateUser({ name, email, image, description });
-      this.setState({ isLoading: false, redirectToProfile: true });
-    });
+    this.setState({ isLoading: true }, this.updateUser);
+  }
+
+  updateUser = async () => {
+    const {
+      name,
+      email,
+      image,
+      description,
+    } = this.state;
+    const { onUserAuthenticate } = this.props;
+    await updateUser({ name, email, image, description });
+    await onUserAuthenticate();
+    this.setState({ isLoading: false, redirectToProfile: true });
   }
 
   render() {
@@ -90,7 +87,7 @@ class ProfileEdit extends React.Component {
       redirectToProfile,
     } = this.state;
     const {
-      fetchUser,
+      user,
     } = this.props;
     return (
       <Container
@@ -104,7 +101,7 @@ class ProfileEdit extends React.Component {
         data-testid="page-profile-edit"
         disableGutters
       >
-        <Header fetchUser={ fetchUser } />
+        <Header user={ user } />
         <Box
           padding={ 3 }
           sx={ {
@@ -120,7 +117,7 @@ class ProfileEdit extends React.Component {
           { redirectToProfile && <Redirect to="/profile" /> }
           { !isLoading ? (
             <form
-              onSubmit={ this.updateUser }
+              onSubmit={ this.submitUser }
               style={ { width: 'fit-content', margin: 'auto' } }
             >
               <FormControl
@@ -199,7 +196,9 @@ class ProfileEdit extends React.Component {
 }
 
 ProfileEdit.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 export default ProfileEdit;
