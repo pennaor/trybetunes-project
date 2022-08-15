@@ -1,6 +1,16 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
+import {
+  Avatar,
+  Box,
+  Container,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from '@mui/material';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
@@ -32,23 +42,67 @@ class Profile extends React.Component {
       fetchUser,
     } = this.props;
     return (
-      <div data-testid="page-profile">
+      <Container
+        maxWidth="md"
+        sx={ {
+          bgcolor: 'white',
+          mt: '10px',
+          borderRadius: '10px',
+        } }
+        component="main"
+        data-testid="page-profile"
+        disableGutters
+      >
         <Header fetchUser={ fetchUser } />
-        { !isLoading ? (
-          <>
-            <h4>Nome</h4>
-            <p>{ name }</p>
-            <img src={ image } alt={ `Foto de ${name}` } data-testid="profile-image" />
-            <h4>E-mail</h4>
-            <p>{ email }</p>
-            <h4>Descrição</h4>
-            <p>{ description }</p>
-            <Link to="/profile/edit">Editar perfil</Link>
-          </>
-        ) : (
-          <Loading />
-        ) }
-      </div>
+        <Box
+          padding={ 3 }
+          sx={ {
+            borderRadius: '0px 0px 10px 10px',
+            borderWidth: '0px 1px 1px 1px',
+            borderStyle: 'solid',
+            borderColor: '#2ba377',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          } }
+        >
+          { !isLoading ? (
+            <List sx={ { width: '100%', maxWidth: '420px' } }>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar
+                    src={ image }
+                    alt={ `Foto de ${name}` }
+                    imgProps={ { 'data-testid': 'profile-image' } }
+                  >
+                    { name[0] }
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={ `${name}` }
+                  secondary={ email }
+                />
+                <ListItemText
+                  sx={ { textAlign: 'end' } }
+                  primary={ <Link to="/profile/edit">Editar perfil</Link> }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem>
+                <ListItemText
+                  primary="Descrição"
+                  secondary={ description }
+                  sx={ {
+                    textAlign: 'center',
+                  } }
+                />
+              </ListItem>
+            </List>
+          ) : (
+            <Loading />
+          ) }
+        </Box>
+      </Container>
     );
   }
 }

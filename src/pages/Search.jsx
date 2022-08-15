@@ -92,7 +92,7 @@ class Search extends React.Component {
             <FormControl
               sx={ { alignItems: 'center' } }
             >
-              <Typography variant="h5" component="h1" marginTop={ 1 }>
+              <Typography variant="h5" component="h1" marginY={ 1 }>
                 Vamos sintonizar?
               </Typography>
               <TextField { ...textFieldProps } />

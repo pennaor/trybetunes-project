@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { Box, Container, FormControl, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { updateUser } from '../services/userAPI';
@@ -48,12 +48,12 @@ class ProfileEdit extends React.Component {
 
   validateFields = () => {
     const {
-      email,
       isEditButtonDisabled,
+      name,
+      email,
+      description,
     } = this.state;
-    const someIsEmpty = Object.values(this.state).some(
-      (value) => typeof value === 'string' && !value.length,
-    );
+    const someIsEmpty = [name, email, description].some((value) => !value.length);
     const disable = someIsEmpty || this.isInvalidEmail(email);
     if (isEditButtonDisabled !== disable) {
       this.setState({ isEditButtonDisabled: disable });
@@ -93,70 +93,107 @@ class ProfileEdit extends React.Component {
       fetchUser,
     } = this.props;
     return (
-      <div data-testid="page-profile-edit">
-        { redirectToProfile && <Redirect to="/profile" /> }
+      <Container
+        maxWidth="md"
+        sx={ {
+          bgcolor: 'white',
+          mt: '10px',
+          borderRadius: '10px',
+        } }
+        component="main"
+        data-testid="page-profile-edit"
+        disableGutters
+      >
         <Header fetchUser={ fetchUser } />
-        <h3>Editar perfil</h3>
-        { !isLoading ? (
-          <form onSubmit={ this.updateUser }>
-            <label htmlFor="edit-input-name">
-              Nome
-              <input
-                id="edit-input-name"
-                type="text"
-                name="name"
-                value={ name }
-                onChange={ this.onInputChange }
-                data-testid="edit-input-name"
-              />
-            </label>
-            <label htmlFor="edit-input-email">
-              E-mail
-              <input
-                id="edit-input-email"
-                type="text"
-                name="email"
-                value={ email }
-                onChange={ this.onInputChange }
-                data-testid="edit-input-email"
-              />
-            </label>
-            <label htmlFor="edit-input-image">
-              Foto
-              <Icon>add_a_photo</Icon>
-              <input
-                id="edit-input-image"
-                type="text"
-                name="image"
-                value={ image }
-                onChange={ this.onInputChange }
-                data-testid="edit-input-image"
-              />
-            </label>
-            <label htmlFor="edit-input-description">
-              Descrição
-              <input
-                id="edit-input-description"
-                type="text"
-                name="description"
-                value={ description }
-                onChange={ this.onInputChange }
-                data-testid="edit-input-description"
-              />
-            </label>
-            <Button
-              variant="contained"
-              type="submit"
-              disabled={ isEditButtonDisabled }
-              data-testid="edit-button-save"
+        <Box
+          padding={ 3 }
+          sx={ {
+            borderRadius: '0px 0px 10px 10px',
+            borderWidth: '0px 1px 1px 1px',
+            borderStyle: 'solid',
+            borderColor: '#2ba377',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          } }
+        >
+          { redirectToProfile && <Redirect to="/profile" /> }
+          { !isLoading ? (
+            <form
+              onSubmit={ this.updateUser }
+              style={ { width: 'fit-content', margin: 'auto' } }
             >
-              Editar
-            </Button>
-          </form>
-        ) : (
-          <Loading />
-        ) }
-      </div>
+              <FormControl
+                sx={ { alignItems: 'center' } }
+              >
+                <Typography variant="h5" component="h1" marginY={ 1 }>
+                  Editar perfil
+                </Typography>
+                <TextField
+                  label="Nome"
+                  id="edit-input-name"
+                  type="text"
+                  name="name"
+                  value={ name }
+                  onChange={ this.onInputChange }
+                  variant="outlined"
+                  margin="normal"
+                  placeholder="Insira seu nome ou apelido"
+                  inputProps={ { 'data-testid': 'edit-input-name' } }
+                />
+                <TextField
+                  label="E-mail"
+                  id="edit-input-email"
+                  type="email"
+                  name="email"
+                  value={ email }
+                  onChange={ this.onInputChange }
+                  variant="outlined"
+                  margin="normal"
+                  placeholder="Insira seu e-mail"
+                  inputProps={ { 'data-testid': 'edit-input-email' } }
+                />
+                <TextField
+                  label="Foto"
+                  id="edit-input-image"
+                  type="text"
+                  name="image"
+                  value={ image }
+                  onChange={ this.onInputChange }
+                  variant="outlined"
+                  margin="normal"
+                  placeholder="Insira a URL da foto"
+                  inputProps={ { 'data-testid': 'edit-input-image' } }
+                />
+                <TextField
+                  label="Descrição"
+                  id="edit-input-description"
+                  type="text"
+                  name="description"
+                  value={ description }
+                  onChange={ this.onInputChange }
+                  multiline
+                  rows={ 4 }
+                  variant="outlined"
+                  margin="normal"
+                  placeholder="Um pouco sobre você"
+                  inputProps={ { 'data-testid': 'edit-input-description' } }
+                />
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  data-testid="edit-button-save"
+                  disabled={ isEditButtonDisabled }
+                >
+                  Editar
+                </Button>
+              </FormControl>
+            </form>
+          ) : (
+            <Loading />
+          ) }
+        </Box>
+      </Container>
     );
   }
 }

@@ -91,14 +91,13 @@ class Login extends React.Component {
                 <TextField
                   type="text"
                   variant="outlined"
-                  label="E-mail"
+                  label="Usuário"
                   margin="normal"
                   autoFocus
                   name="user"
-                  placeholder="Insira nome de usuário"
+                  placeholder="Insira seu nome ou apelido"
                   onChange={ this.onInputChange }
                   inputProps={ { 'data-testid': 'login-name-input' } }
-                  autoComplete="email"
                 />
                 <Button
                   variant="outlined"
