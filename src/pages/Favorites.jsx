@@ -1,8 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
-import { Box, Container, Typography } from '@mui/material';
-import Header from '../components/Header';
-import Loading from '../components/Loading';
+import { Typography } from '@mui/material';
 import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import MusicList from '../components/MusicList';
 
@@ -16,8 +13,7 @@ class Favorites extends React.Component {
   }
 
   componentDidMount() {
-    const { onUserAuthenticate } = this.props;
-    onUserAuthenticate(this.fetchFavoritesTracks);
+    this.fetchFavoritesTracks();
   }
 
   fetchFavoritesTracks = async () => {
@@ -46,58 +42,20 @@ class Favorites extends React.Component {
       tracks,
       isLoading,
     } = this.state;
-    const {
-      user,
-      isRefreshingUser,
-    } = this.props;
     return (
-      <Container
-        maxWidth="md"
-        sx={ {
-          bgcolor: 'white',
-          mt: '10px',
-          borderRadius: '10px',
-        } }
-        component="main"
-        data-testid="page-favorites"
-        disableGutters
-      >
-        <Header user={ user } />
-        <Box
-          padding={ 3 }
-          sx={ {
-            borderRadius: '0px 0px 10px 10px',
-            borderWidth: '0px 1px 1px 1px',
-            borderStyle: 'solid',
-            borderColor: '#2ba377',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          } }
-        >
-          { !isRefreshingUser ? (
-            <>
-              <Typography variant="h5">
-                Minhas Favoritas
-              </Typography>
-              <MusicList
-                isLoading={ isLoading }
-                tracks={ tracks }
-                favoriteAllTracks
-                favoriteHandler={ this.favoriteHandler }
-              />
-            </>
-          ) : (<Loading />) }
-        </Box>
-      </Container>
+      <>
+        <Typography variant="h5">
+          Minhas Favoritas
+        </Typography>
+        <MusicList
+          isLoading={ isLoading }
+          tracks={ tracks }
+          favoriteAllTracks
+          favoriteHandler={ this.favoriteHandler }
+        />
+      </>
     );
   }
 }
-
-Favorites.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-  }).isRequired,
-};
 
 export default Favorites;

@@ -10,7 +10,7 @@ import {
 import DateFormater from '../utils/DateFormater';
 
 export default function AlbumCard(props) {
-  const { album, redirectToAlbum } = props;
+  const { album, history } = props;
   const {
     artistName,
     collectionId,
@@ -24,7 +24,7 @@ export default function AlbumCard(props) {
       data-testid={ `link-to-album-${collectionId}` }
     >
       <CardActionArea
-        onClick={ () => redirectToAlbum(`/album/${collectionId}`) }
+        onClick={ () => history.push(`/album/${collectionId}`) }
         sx={ {
           display: 'flex',
           justifyContent: 'space-around',
@@ -76,5 +76,5 @@ AlbumCard.propTypes = {
     releaseDate: PropTypes.string.isRequired,
     trackCount: PropTypes.number.isRequired,
   }).isRequired,
-  redirectToAlbum: PropTypes.func.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };

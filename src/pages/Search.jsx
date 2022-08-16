@@ -1,13 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Box,
-  Container,
-  FormControl,
-  TextField, Typography } from '@mui/material';
+import { FormControl, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
-import Loading from '../components/Loading';
 import AlbumList from '../components/AlbumList';
 
 class Search extends React.Component {
@@ -22,11 +17,6 @@ class Search extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { onUserAuthenticate } = this.props;
-    onUserAuthenticate();
-  }
-
   onSearching = ({ target: { name, value } }) => this.setState(
     { [name]: value, isSearchButtonDisabled: value.length < 2 },
   );
@@ -39,11 +29,6 @@ class Search extends React.Component {
     this.setState({ result, isLoading: false });
   }
 
-  redirectToAlbum = (url) => {
-    const { history } = this.props;
-    history.push(url);
-  }
-
   render() {
     const {
       isLoading,
@@ -53,7 +38,7 @@ class Search extends React.Component {
       searched,
     } = this.state;
     const {
-      user,
+      history,
     } = this.props;
     const textFieldProps = {
       type: 'text',
@@ -69,65 +54,41 @@ class Search extends React.Component {
       inputProps: { 'data-testid': 'search-artist-input' },
     };
     return (
-      <Container
-        maxWidth="md"
-        sx={ {
-          bgcolor: 'white',
-          mt: '10px',
-          borderRadius: '10px',
-        } }
-        component="main"
-        data-testid="page-search"
-        disableGutters
-      >
-        <Header user={ user } />
-        <Box
-          padding={ 3 }
-          sx={ {
-            borderRadius: '0px 0px 10px 10px',
-            borderWidth: '0px 1px 1px 1px',
-            borderStyle: 'solid',
-            borderColor: '#2ba377',
-          } }
+      <>
+        <form
+          onSubmit={ this.getAlbums }
+          style={ { width: 'fit-content', margin: 'auto' } }
         >
-          <form
-            onSubmit={ this.getAlbums }
-            style={ { width: 'fit-content', margin: 'auto' } }
+          <FormControl
+            sx={ { alignItems: 'center' } }
           >
-            <FormControl
-              sx={ { alignItems: 'center' } }
+            <Typography variant="h5" component="h1" marginY={ 1 }>
+              Vamos sintonizar?
+            </Typography>
+            <TextField { ...textFieldProps } />
+            <Button
+              variant="outlined"
+              type="submit"
+              data-testid="search-artist-button"
+              disabled={ isSearchButtonDisabled }
             >
-              <Typography variant="h5" component="h1" marginY={ 1 }>
-                Vamos sintonizar?
-              </Typography>
-              <TextField { ...textFieldProps } />
-              <Button
-                variant="outlined"
-                type="submit"
-                data-testid="search-artist-button"
-                disabled={ isSearchButtonDisabled }
-              >
-                Procurar
-              </Button>
-            </FormControl>
-          </form>
-          { !isLoading ? (
-            <AlbumList
-              result={ result }
-              searched={ searched }
-              redirectToAlbum={ this.redirectToAlbum }
-            />
-          ) : (<Loading />) }
-        </Box>
-      </Container>
+              Procurar
+            </Button>
+          </FormControl>
+        </form>
+        <AlbumList
+          isLoading={ isLoading }
+          result={ result }
+          searched={ searched }
+          history={ history }
+        />
+      </>
+
     );
   }
 }
 
 Search.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-  }).isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 

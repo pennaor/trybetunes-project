@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import { Box, Container, FormControl, TextField, Typography } from '@mui/material';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { createUser } from '../services/userAPI';
 
 class Login extends React.Component {
   constructor() {
@@ -15,13 +14,6 @@ class Login extends React.Component {
       loginButtonEnabled: false,
       isLoading: false,
     };
-  }
-
-  callUserAPI = async () => {
-    const { user } = this.state;
-    const { onUserAuthenticate } = this.props;
-    await createUser({ name: user });
-    onUserAuthenticate();
   }
 
   onInputChange = ({ target }) => {
@@ -37,7 +29,11 @@ class Login extends React.Component {
 
   onLoginClickButton = (event) => {
     event.preventDefault();
-    this.setState({ isLoading: true }, this.callUserAPI);
+    const { createUser } = this.props;
+    this.setState({ isLoading: true }, () => {
+      const { user } = this.state;
+      createUser(user);
+    });
   }
 
   render() {
@@ -112,12 +108,14 @@ class Login extends React.Component {
           ) : (<Loading />) }
         </Box>
       </Container>
-    ) : (<Redirect to="/search" />);
+    ) : (
+      <Redirect to="/search" />
+    );
   }
 }
 
 Login.propTypes = {
-  onUserAuthenticate: PropTypes.func.isRequired,
+  createUser: PropTypes.func.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string,
   }).isRequired,

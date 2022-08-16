@@ -5,9 +5,13 @@ import {
   Typography,
 } from '@mui/material';
 import AlbumCard from './AlbumCard';
+import Loading from './Loading';
 
 export default function AlbumList(props) {
-  const { result, searched, redirectToAlbum } = props;
+  const { result, searched, isLoading, history } = props;
+  if (isLoading) {
+    return (<Loading />);
+  }
   if (searched) {
     return (
       <Container
@@ -28,7 +32,7 @@ export default function AlbumList(props) {
             <AlbumCard
               key={ album.collectionId }
               album={ album }
-              redirectToAlbum={ redirectToAlbum }
+              history={ history }
             />))
         ) : (
           <Typography variant="body2">
@@ -44,5 +48,6 @@ export default function AlbumList(props) {
 AlbumList.propTypes = {
   result: PropTypes.arrayOf(PropTypes.object).isRequired,
   searched: PropTypes.string.isRequired,
-  redirectToAlbum: PropTypes.func.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };

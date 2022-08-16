@@ -1,9 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Box, Container, Typography } from '@mui/material';
-import Header from '../components/Header';
+import { Typography } from '@mui/material';
 import getMusics from '../services/musicsAPI';
-import Loading from '../components/Loading';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import MusicList from '../components/MusicList';
 
@@ -61,51 +59,21 @@ class Album extends React.Component {
       favoritedTracks,
       isLoading,
     } = this.state;
-    const {
-      user,
-    } = this.props;
     return (
-      <Container
-        maxWidth="md"
-        sx={ {
-          bgcolor: 'white',
-          mt: '10px',
-          borderRadius: '10px',
-        } }
-        component="main"
-        data-testid="page-album"
-        disableGutters
-      >
-        <Header user={ user } />
-        <Box
-          padding={ 3 }
-          sx={ {
-            borderRadius: '0px 0px 10px 10px',
-            borderWidth: '0px 1px 1px 1px',
-            borderStyle: 'solid',
-            borderColor: '#2ba377',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          } }
-        >
-          <Typography variant="h5">
-            { album.collectionName }
-          </Typography>
-          <Typography variant="subtitle1">
-            { album.artistName }
-          </Typography>
-          { !isLoading ? (
-            <MusicList
-              tracks={ tracks }
-              favoritedTracks={ favoritedTracks }
-              favoriteHandler={ this.favoriteHandler }
-            />
-          ) : (
-            <Loading />
-          ) }
-        </Box>
-      </Container>
+      <>
+        <Typography variant="h5">
+          { album.collectionName }
+        </Typography>
+        <Typography variant="subtitle1">
+          { album.artistName }
+        </Typography>
+        <MusicList
+          isLoading={ isLoading }
+          tracks={ tracks }
+          favoritedTracks={ favoritedTracks }
+          favoriteHandler={ this.favoriteHandler }
+        />
+      </>
     );
   }
 }

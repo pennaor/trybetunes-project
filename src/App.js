@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Album from './pages/Album';
 import Favorites from './pages/Favorites';
@@ -8,8 +8,13 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
-import { getUser } from './services/userAPI';
+import {
+  getUser as getUserAPI,
+  createUser as createUserAPI,
+  updateUser as updateUserAPI,
+} from './services/userAPI';
 import './styles/global.css';
+import Body from './components/Body';
 import Loading from './components/Loading';
 
 const theme = createTheme({
@@ -30,114 +35,104 @@ class App extends React.Component {
     this.state = {
       user: {},
       isAppLoading: true,
-      isRefreshingUser: false,
     };
   }
 
   componentDidMount() {
-    this.onUserAuthenticate();
+    this.getUser();
   }
 
-  onUserAuthenticate = async (callback) => {
-    this.setState({ isRefreshingUser: true });
-    const user = await getUser();
-    this.setState({ user, isAppLoading: false, isRefreshingUser: false }, callback);
+  getUser = async () => {
+    const user = await getUserAPI();
+    this.setState({ user, isAppLoading: false });
   }
 
-  checkAuthentication = (component) => {
-    const { user } = this.state;
-    return user.name ? component : (<Redirect to="/" />);
+  createUser = async (user) => {
+    await createUserAPI({ name: user });
+    this.getUser();
+  }
+
+  updateUser = async (user) => {
+    await updateUserAPI(user);
+    await this.getUser();
   }
 
   render() {
-    const { user, isAppLoading, isRefreshingUser } = this.state;
+    const { user, isAppLoading } = this.state;
     return (
       <ThemeProvider theme={ theme }>
-        <BrowserRouter>
-          { !isAppLoading ? (
-            <Switch>
-              <Route
-                path="/profile/edit"
-                render={ (props) => (
-                  this.checkAuthentication(
-                    <ProfileEdit
-                      { ...props }
-                      onUserAuthenticate={ this.onUserAuthenticate }
-                      user={ user }
-                      isRefreshingUser={ isRefreshingUser }
-                    />,
-                  )
-                ) }
-              />
-              <Route
-                path="/profile"
-                render={ (props) => (
-                  this.checkAuthentication(
-                    <Profile
-                      { ...props }
-                      onUserAuthenticate={ this.onUserAuthenticate }
-                      user={ user }
-                      isRefreshingUser={ isRefreshingUser }
-                    />,
-                  )
-                ) }
-              />
-              <Route
-                path="/favorites"
-                render={ (props) => (
-                  this.checkAuthentication(
-                    <Favorites
-                      { ...props }
-                      onUserAuthenticate={ this.onUserAuthenticate }
-                      user={ user }
-                      isRefreshingUser={ isRefreshingUser }
-                    />,
-                  )
-                ) }
-              />
-              <Route
-                path="/search"
-                render={ (props) => (
-                  this.checkAuthentication(
-                    <Search
-                      { ...props }
-                      onUserAuthenticate={ this.onUserAuthenticate }
-                      user={ user }
-                      isRefreshingUser={ isRefreshingUser }
-                    />,
-                  )
-                ) }
-              />
-              <Route
-                path="/album/:id"
-                render={ (props) => (
-                  this.checkAuthentication(
-                    <Album
-                      { ...props }
-                      onUserAuthenticate={ this.onUserAuthenticate }
-                      user={ user }
-                      isRefreshingUser={ isRefreshingUser }
-                    />,
-                  )
-                ) }
-              />
-              <Route
-                exact
-                path="/"
-                render={ (props) => (
-                  <Login
+        { !isAppLoading ? (
+          <Switch>
+            <Route
+              path="/profile/edit"
+              render={ (props) => (
+                <Body user={ user }>
+                  <ProfileEdit
                     { ...props }
-                    onUserAuthenticate={ this.onUserAuthenticate }
+                    updateUser={ this.updateUser }
                     user={ user }
                   />
-                ) }
-              />
-              <Route path="*" component={ NotFound } />
-            </Switch>
-          ) : (
-            <Loading />
-          ) }
-        </BrowserRouter>
+                </Body>
+              ) }
+            />
+            <Route
+              path="/profile"
+              render={ (props) => (
+                <Body user={ user }>
+                  <Profile
+                    { ...props }
+                    user={ user }
+                  />
+                </Body>
+              ) }
+            />
+            <Route
+              path="/favorites"
+              render={ (props) => (
+                <Body user={ user }>
+                  <Favorites
+                    { ...props }
+                  />
+                </Body>
+              ) }
+            />
+            <Route
+              path="/search"
+              render={ (props) => (
+                <Body user={ user }>
+                  <Search
+                    { ...props }
+                  />
+                </Body>
+              ) }
+            />
+            <Route
+              path="/album/:id"
+              render={ (props) => (
+                <Body user={ user }>
+                  <Album
+                    { ...props }
+                    user={ user }
+                  />
+                </Body>
+              ) }
+            />
+            <Route
+              exact
+              path="/"
+              render={ (props) => (
+                <Login
+                  { ...props }
+                  createUser={ this.createUser }
+                  user={ user }
+                />
+              ) }
+            />
+            <Route path="*" component={ NotFound } />
+          </Switch>
+        ) : (
+          <Loading />
+        ) }
       </ThemeProvider>
     );
   }
