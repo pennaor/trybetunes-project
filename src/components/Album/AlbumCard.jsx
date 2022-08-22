@@ -7,7 +7,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import DateFormater from '../utils/DateFormater';
+import DateFormater from '../../utils/DateFormater';
 
 export default function AlbumCard(props) {
   const { album, history } = props;

@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { Box, Container, FormControl, TextField, Typography } from '@mui/material';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import Loading from '../components/Loading';
 
 class Login extends React.Component {

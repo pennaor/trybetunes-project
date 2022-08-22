@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { FormControl, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
-import AlbumList from '../components/AlbumList';
+import AlbumList from '../components/Album/AlbumList';
 
 class Search extends React.Component {
   constructor() {

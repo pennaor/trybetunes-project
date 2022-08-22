@@ -5,7 +5,7 @@ import {
   Typography,
 } from '@mui/material';
 import AlbumCard from './AlbumCard';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 export default function AlbumList(props) {
   const { result, searched, isLoading, history } = props;

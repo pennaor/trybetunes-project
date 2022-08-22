@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 
 class NotFound extends React.Component {
   render() {
