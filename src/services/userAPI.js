@@ -4,6 +4,7 @@ const SUCCESS_STATUS = 'OK';
 
 const readUser = () => JSON.parse(localStorage.getItem(USER_KEY));
 const saveUser = (user) => localStorage.setItem(USER_KEY, JSON.stringify(user));
+const deleteUser = () => localStorage.removeItem('user');
 
 // --------------------------------------------------------------------
 // A função simulateRequest simula uma requisição para uma API externa
@@ -39,5 +40,10 @@ export const createUser = (user) => new Promise((resolve) => {
 
 export const updateUser = (updatedUser) => new Promise((resolve) => {
   saveUser({ ...updatedUser });
+  simulateRequest(SUCCESS_STATUS)(resolve);
+});
+
+export const logoutUser = () => new Promise((resolve) => {
+  deleteUser();
   simulateRequest(SUCCESS_STATUS)(resolve);
 });

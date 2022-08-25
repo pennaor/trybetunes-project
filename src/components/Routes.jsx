@@ -1,5 +1,5 @@
 import React from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import Album from '../pages/Album';
 import Favorites from '../pages/Favorites';
@@ -10,13 +10,13 @@ import ProfileEdit from '../pages/ProfileEdit';
 import Search from '../pages/Search';
 import Body from './Body';
 
-export default function Routes({ user, createUser, updateUser }) {
+export default function Routes({ user, createUser, updateUser, onUserLogout }) {
   return (
     <Switch>
       <Route
         path="/profile/edit"
         render={ (props) => (
-          <Body user={ user }>
+          <Body user={ user } onUserLogout={ onUserLogout }>
             <ProfileEdit
               { ...props }
               updateUser={ updateUser }
@@ -28,7 +28,7 @@ export default function Routes({ user, createUser, updateUser }) {
       <Route
         path="/profile"
         render={ (props) => (
-          <Body user={ user }>
+          <Body user={ user } onUserLogout={ onUserLogout }>
             <Profile
               { ...props }
               user={ user }
@@ -39,7 +39,7 @@ export default function Routes({ user, createUser, updateUser }) {
       <Route
         path="/favorites"
         render={ (props) => (
-          <Body user={ user }>
+          <Body user={ user } onUserLogout={ onUserLogout }>
             <Favorites
               { ...props }
             />
@@ -49,7 +49,7 @@ export default function Routes({ user, createUser, updateUser }) {
       <Route
         path="/search"
         render={ (props) => (
-          <Body user={ user }>
+          <Body user={ user } onUserLogout={ onUserLogout }>
             <Search
               { ...props }
             />
@@ -59,7 +59,7 @@ export default function Routes({ user, createUser, updateUser }) {
       <Route
         path="/album/:id"
         render={ (props) => (
-          <Body user={ user }>
+          <Body user={ user } onUserLogout={ onUserLogout }>
             <Album
               { ...props }
               user={ user }
@@ -84,7 +84,8 @@ export default function Routes({ user, createUser, updateUser }) {
 }
 
 Routes.propTypes = {
-  user: PropType.shape({}).isRequired,
-  createUser: PropType.func.isRequired,
-  updateUser: PropType.func.isRequired,
+  user: PropTypes.shape({}).isRequired,
+  createUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  onUserLogout: PropTypes.func.isRequired,
 };

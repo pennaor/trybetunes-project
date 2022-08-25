@@ -48,7 +48,7 @@ class Search extends React.Component {
       value: searchingFor,
       placeholder: 'Insira seu artista preferido',
       variant: 'outlined',
-      helperText: 'Ao menos 3 caractéres são necessários',
+      helperText: 'Ao menos 3 caracteres são necessários',
       margin: 'normal',
       autoFocus: true,
       inputProps: { 'data-testid': 'search-artist-input' },

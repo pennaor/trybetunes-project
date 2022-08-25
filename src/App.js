@@ -4,6 +4,7 @@ import {
   getUser as getUserAPI,
   createUser as createUserAPI,
   updateUser as updateUserAPI,
+  logoutUser as logoutUserAPI,
 } from './services/userAPI';
 import './styles/global.css';
 import Loading from './components/Loading';
@@ -41,11 +42,17 @@ class App extends React.Component {
 
   createUser = async (user) => {
     await createUserAPI({ name: user });
-    this.getUser();
+    await this.getUser();
   }
 
   updateUser = async (user) => {
     await updateUserAPI(user);
+    await this.getUser();
+  }
+
+  onUserLogout = async () => {
+    this.setState({ isAppLoading: true });
+    await logoutUserAPI();
     await this.getUser();
   }
 
@@ -58,6 +65,7 @@ class App extends React.Component {
             user={ user }
             createUser={ this.createUser }
             updateUser={ this.updateUser }
+            onUserLogout={ this.onUserLogout }
           />
         ) : (
           <Loading />
