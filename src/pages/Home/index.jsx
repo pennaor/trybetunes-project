@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import searchAlbumsAPI from '../../services/searchAlbumsAPI';
-import AlbumList from '../../components/Album/AlbumList';
+import AlbumList from './Album/AlbumList';
 import * as S from './styles';
 
 class Home extends React.Component {
@@ -41,7 +41,7 @@ class Home extends React.Component {
     } = this.props;
     return (
       <>
-        <S.Form>
+        <S.Form onSubmit={ this.getAlbums }>
           <S.Title text="Vamos sintonizar?" />
           <S.Input
             type="text"

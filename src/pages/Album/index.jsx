@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Typography } from '@mui/material';
-import getMusics from '../services/musicsAPI';
-import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
-import MusicList from '../components/Music/MusicList';
+import getMusics from '../../services/musicsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
+import MusicList from './Music/MusicList';
+import * as S from './styles';
 
 class Album extends React.Component {
   constructor() {
@@ -61,12 +61,12 @@ class Album extends React.Component {
     } = this.state;
     return (
       <>
-        <Typography variant="h5">
+        <S.Title>
           { album.collectionName }
-        </Typography>
-        <Typography variant="subtitle1">
+        </S.Title>
+        <S.SubTitle>
           { album.artistName }
-        </Typography>
+        </S.SubTitle>
         <MusicList
           isLoading={ isLoading }
           tracks={ tracks }

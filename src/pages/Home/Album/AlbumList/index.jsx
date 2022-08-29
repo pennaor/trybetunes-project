@@ -1,11 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import {
-  Container,
-  Typography,
-} from '@mui/material';
-import AlbumCard from './AlbumCard';
-import Loading from '../Loading';
+import AlbumCard from '../AlbumCard';
+import Loading from '../../../../components/Loading';
+import * as S from './styles';
 
 export default function AlbumList(props) {
   const { result, artist, isLoading, history } = props;
@@ -14,19 +11,10 @@ export default function AlbumList(props) {
   }
   if (artist) {
     return (
-      <Container
-        className="album-list"
-        sx={ {
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          gap: '1em',
-        } }
-      >
-        <Typography variant="h6" padding="20px">
+      <S.AlbumList>
+        <S.Title>
           {`Resultado de álbuns de: ${artist}`}
-        </Typography>
+        </S.Title>
         { result.length > 0 ? (
           result.map((album) => (
             <AlbumCard
@@ -35,11 +23,11 @@ export default function AlbumList(props) {
               history={ history }
             />))
         ) : (
-          <Typography variant="body2">
+          <S.Message>
             Nenhum álbum foi encontrado
-          </Typography>
+          </S.Message>
         ) }
-      </Container>
+      </S.AlbumList>
     );
   }
   return null;

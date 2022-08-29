@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { List, ListItem } from '@mui/material';
-import MusicCard from './MusicCard';
-import Loading from '../Loading';
+import MusicCard from '../MusicCard';
+import Loading from '../../../../components/Loading';
 
 class MusicList extends React.Component {
   render() {
