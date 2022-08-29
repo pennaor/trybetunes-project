@@ -7,7 +7,7 @@ import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ProfileEdit from '../pages/ProfileEdit';
-import Search from '../pages/Home/Home';
+import Home from '../pages/Home';
 import Body from './Body';
 
 export default function Routes({ user, createUser, updateUser, onUserLogout }) {
@@ -50,7 +50,7 @@ export default function Routes({ user, createUser, updateUser, onUserLogout }) {
         path="/search"
         render={ (props) => (
           <Body user={ user } onUserLogout={ onUserLogout }>
-            <Search
+            <Home
               { ...props }
             />
           </Body>

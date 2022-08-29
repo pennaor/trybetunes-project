@@ -1,9 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { FormControl, TextField, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
 import searchAlbumsAPI from '../../services/searchAlbumsAPI';
 import AlbumList from '../../components/Album/AlbumList';
+import * as S from './styles';
 
 class Home extends React.Component {
   constructor() {
@@ -40,42 +39,28 @@ class Home extends React.Component {
     const {
       history,
     } = this.props;
-    const textFieldProps = {
-      type: 'text',
-      name: 'searchingFor',
-      label: 'Artista',
-      onChange: this.onSearching,
-      value: searchingFor,
-      placeholder: 'Insira seu artista preferido',
-      variant: 'outlined',
-      helperText: 'Ao menos 3 caracteres são necessários',
-      margin: 'normal',
-      autoFocus: true,
-      inputProps: { 'data-testid': 'search-artist-input' },
-    };
     return (
       <>
-        <form
-          onSubmit={ this.getAlbums }
-          style={ { width: 'fit-content', margin: 'auto' } }
-        >
-          <FormControl
-            sx={ { alignItems: 'center' } }
+        <S.Form>
+          <S.Title text="Vamos sintonizar?" />
+          <S.Input
+            type="text"
+            name="searchingFor"
+            label="Artista"
+            onChange={ this.onSearching }
+            value={ searchingFor }
+            placeholder="Insira seu artista preferido"
+            helperText="Ao menos 3 caracteres são necessários"
+            testid="search-artist-input"
+          />
+          <S.Button
+            type="submit"
+            disabled={ isSearchButtonDisabled }
+            testid="searc-artist-button"
           >
-            <Typography variant="h5" component="h1" marginY={ 1 }>
-              Vamos sintonizar?
-            </Typography>
-            <TextField { ...textFieldProps } />
-            <Button
-              variant="outlined"
-              type="submit"
-              data-testid="search-artist-button"
-              disabled={ isSearchButtonDisabled }
-            >
-              Procurar
-            </Button>
-          </FormControl>
-        </form>
+            Entrar
+          </S.Button>
+        </S.Form>
         <AlbumList
           isLoading={ isLoading }
           result={ result }
