@@ -6,7 +6,7 @@ import Header from './Header/Header';
 
 class Body extends React.Component {
   render() {
-    const { children, user } = this.props;
+    const { children, user, onUserLogout } = this.props;
     return user.name ? (
       <Container
         maxWidth="md"
@@ -19,7 +19,7 @@ class Body extends React.Component {
         data-testid="page-profile"
         disableGutters
       >
-        <Header user={ user } />
+        <Header user={ user } onUserLogout={ onUserLogout } />
         <Box
           component="main"
           padding={ 3 }
@@ -47,6 +47,7 @@ Body.propTypes = {
     name: PropTypes.string,
   }),
   children: PropTypes.element.isRequired,
+  onUserLogout: PropTypes.func.isRequired,
 };
 
 Body.defaultProps = {

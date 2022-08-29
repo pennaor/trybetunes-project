@@ -21,17 +21,16 @@ class ProfileEdit extends React.Component {
 
   isInvalidEmail = (email) => {
     const [user, domain] = email.split('@');
-    if (!domain) return true;
+    if (user[0].match(/\d/) || !domain) return true;
+    const minimalLength = 3;
     const subDomains = domain.split('.');
-    const minimalLength = 4;
-    if (
+    return (
       subDomains.length < 2
       || [user, ...subDomains].some((fragment) => fragment.match(/\W/))
       || user.length < minimalLength
       || subDomains[0].length < minimalLength
       || !subDomains[1].length
-    ) return true;
-    return false;
+    );
   }
 
   validateFields = () => {
@@ -107,6 +106,7 @@ class ProfileEdit extends React.Component {
             id="edit-input-email"
             type="email"
             name="email"
+            helperText="Formato válido: user@mail.com"
             value={ email }
             onChange={ this.onInputChange }
             variant="outlined"
