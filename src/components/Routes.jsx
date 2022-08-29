@@ -3,11 +3,11 @@ import PropType from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import Album from '../pages/Album';
 import Favorites from '../pages/Favorites';
-import Login from '../pages/Login/index';
+import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ProfileEdit from '../pages/ProfileEdit';
-import Search from '../pages/Search';
+import Search from '../pages/Home/Home';
 import Body from './Body';
 
 export default function Routes({ user, createUser, updateUser }) {

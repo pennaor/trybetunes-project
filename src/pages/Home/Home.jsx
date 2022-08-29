@@ -2,15 +2,15 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { FormControl, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import searchAlbumsAPI from '../services/searchAlbumsAPI';
-import AlbumList from '../components/Album/AlbumList';
+import searchAlbumsAPI from '../../services/searchAlbumsAPI';
+import AlbumList from '../../components/Album/AlbumList';
 
-class Search extends React.Component {
+class Home extends React.Component {
   constructor() {
     super();
     this.state = {
       searchingFor: '',
-      searched: '',
+      artist: '',
       result: [],
       isSearchButtonDisabled: true,
       isLoading: false,
@@ -24,7 +24,7 @@ class Search extends React.Component {
   getAlbums = async (event) => {
     event.preventDefault();
     const { searchingFor } = this.state;
-    this.setState({ searchingFor: '', searched: searchingFor, isLoading: true });
+    this.setState({ searchingFor: '', artist: searchingFor, isLoading: true });
     const result = await searchAlbumsAPI(searchingFor);
     this.setState({ result, isLoading: false });
   }
@@ -35,7 +35,7 @@ class Search extends React.Component {
       isSearchButtonDisabled,
       searchingFor,
       result,
-      searched,
+      artist,
     } = this.state;
     const {
       history,
@@ -79,7 +79,7 @@ class Search extends React.Component {
         <AlbumList
           isLoading={ isLoading }
           result={ result }
-          searched={ searched }
+          artist={ artist }
           history={ history }
         />
       </>
@@ -88,8 +88,8 @@ class Search extends React.Component {
   }
 }
 
-Search.propTypes = {
+Home.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
-export default Search;
+export default Home;

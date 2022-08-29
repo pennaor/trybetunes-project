@@ -8,11 +8,11 @@ import AlbumCard from './AlbumCard';
 import Loading from '../Loading';
 
 export default function AlbumList(props) {
-  const { result, searched, isLoading, history } = props;
+  const { result, artist, isLoading, history } = props;
   if (isLoading) {
     return (<Loading />);
   }
-  if (searched) {
+  if (artist) {
     return (
       <Container
         className="album-list"
@@ -25,7 +25,7 @@ export default function AlbumList(props) {
         } }
       >
         <Typography variant="h6" padding="20px">
-          {`Resultado de álbuns de: ${searched}`}
+          {`Resultado de álbuns de: ${artist}`}
         </Typography>
         { result.length > 0 ? (
           result.map((album) => (
@@ -47,7 +47,7 @@ export default function AlbumList(props) {
 
 AlbumList.propTypes = {
   result: PropTypes.arrayOf(PropTypes.object).isRequired,
-  searched: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
