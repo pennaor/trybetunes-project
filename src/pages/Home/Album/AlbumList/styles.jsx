@@ -1,14 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {
-  Card as MuiCard,
-  CardContent,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  Typography,
-} from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 export const AlbumList = ({ children }) => (
   <Container

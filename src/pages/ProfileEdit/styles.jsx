@@ -1,5 +1,10 @@
 import React from 'react';
-import { Button as MuiButton, FormControl, TextField, Typography } from '@mui/material';
+import {
+  Button as MuiButton,
+  FormControl,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 export const Form = ({ children, onSubmit }) => (
   <form
@@ -19,22 +24,28 @@ export const Form = ({ children, onSubmit }) => (
   </form>
 );
 
-export const Title = ({ text }) => (
+export const Title = ({ children }) => (
   <Typography variant="h5" component="h1" marginY={ 1 }>
-    { text }
+    { children }
   </Typography>
 );
 
-export const Input = ({ type, name, placeholder, onChange, testid }) => (
+export const Input = ({ testid, ...props }) => (
   <TextField
     variant="outlined"
-    label="Usuário"
     margin="normal"
-    autoFocus
-    type={ type }
-    name={ name }
-    placeholder={ placeholder }
-    onChange={ onChange }
+    { ...props }
+    inputProps={ { 'data-testid': testid } }
+  />
+);
+
+export const TextArea = ({ testid, ...props }) => (
+  <TextField
+    variant="outlined"
+    margin="normal"
+    multiline
+    rows={ 4 }
+    { ...props }
     inputProps={ { 'data-testid': testid } }
   />
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
-import MusicList from './Album/Music/MusicList';
+import { getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
+import MusicList from '../Album/Music/MusicList';
 
 class Favorites extends React.Component {
   constructor() {

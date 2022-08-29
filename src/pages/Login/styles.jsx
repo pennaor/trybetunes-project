@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { Box, Container, FormControl, TextField, Typography } from '@mui/material';
 import Header from '../../components/Header/Header';
