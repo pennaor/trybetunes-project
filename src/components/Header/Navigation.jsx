@@ -1,10 +1,8 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@mui/material';
 
-export default function Navigation({ userName }) {
-  if (!userName) return null;
+export default function Navigation() {
   return (
     <Grid
       container
@@ -46,11 +44,3 @@ export default function Navigation({ userName }) {
     </Grid>
   );
 }
-
-Navigation.propTypes = {
-  userName: PropTypes.string,
-};
-
-Navigation.defaultProps = {
-  userName: null,
-};

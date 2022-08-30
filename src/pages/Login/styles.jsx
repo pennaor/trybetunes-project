@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, FormControl, TextField, Typography } from '@mui/material';
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 export const Login = ({ children }) => (
   <Container
