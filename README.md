@@ -80,7 +80,7 @@ npm start
 <summary><strong>Tools</strong></summary>
 
 - [ReactJS](https://reactjs.org/)
-- [Material-UI](https://materializecss.com)
+- [Material-UI](https://mui.com/)
 - [Eslint](https://eslint.org/)
 </details>
 
