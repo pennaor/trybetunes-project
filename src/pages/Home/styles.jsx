@@ -25,10 +25,10 @@ export const Title = ({ text }) => (
   </Typography>
 );
 
-export const Input = ({ type, name, placeholder, onChange, testid }) => (
+export const Input = ({ type, label, name, placeholder, onChange, testid }) => (
   <TextField
     variant="outlined"
-    label="Usuário"
+    label={ label }
     margin="normal"
     autoFocus
     type={ type }
